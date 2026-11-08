@@ -251,7 +251,7 @@ class AppShell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final wide = screenWidth > 760;
-    final compactHeader = screenWidth < 760;
+    final compactHeader = screenWidth < 900;
     final user = ref.watch(authStateProvider).asData?.value;
     final localName = ref.watch(displayNameProvider);
     final careerRecords =
@@ -328,7 +328,7 @@ class AppShell extends ConsumerWidget {
                             onPressed: () => context.go('/saved'),
                             icon: const Icon(Icons.bookmark_border, color: ink),
                           ),
-                        if (screenWidth >= 760)
+                        if (screenWidth >= 900)
                           IconButton(
                             tooltip: 'Notifications',
                             onPressed: () =>
@@ -4403,7 +4403,7 @@ class ProfilePage extends ConsumerWidget {
                                   ),
                               ],
                             );
-                            if (constraints.maxWidth < 760) {
+                            if (constraints.maxWidth < 900) {
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
