@@ -922,6 +922,7 @@ class HomePage extends ConsumerWidget {
                         ],
                       ),
                     ),
+                    const Spacer(),
                     TextButton.icon(
                       onPressed: () => context.go('/explore'),
                       icon: const Icon(Icons.arrow_forward, size: 16),
@@ -4288,7 +4289,11 @@ class ProfilePage extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 8,
+                  runSpacing: 4,
                   children: [
                     TextButton.icon(
                       onPressed: () => context.go('/'),
@@ -4300,7 +4305,6 @@ class ProfilePage extends ConsumerWidget {
                       'Account settings  ›  Profile overview',
                       style: TextStyle(color: muted, fontSize: 12),
                     ),
-                    const Spacer(),
                     pill(
                       user == null
                           ? 'Guest profile · This device'
@@ -4318,10 +4322,9 @@ class ProfilePage extends ConsumerWidget {
                     ),
                     child: Column(
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
+                        LayoutBuilder(
+                          builder: (context, constraints) {
+                            final avatar = CircleAvatar(
                               radius: 34,
                               backgroundColor: const Color(0xffe1f0ed),
                               child: Text(
@@ -4338,47 +4341,45 @@ class ProfilePage extends ConsumerWidget {
                                   color: teal,
                                 ),
                               ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          name,
-                                          style: GoogleFonts.playfairDisplay(
-                                            fontSize: 26,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      if (user != null) pill('MEMBER'),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    user?.email ??
-                                        'Your progress stays in this browser until you sign in.',
-                                    style: const TextStyle(color: muted),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  if (activeIds.isNotEmpty)
+                            );
+                            final details = Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  spacing: 8,
+                                  runSpacing: 4,
+                                  children: [
                                     Text(
-                                      'Active pathway: ${data.byId(activeIds.first)['career']['name']} · ${tasksComplete} tasks completed',
-                                      style: const TextStyle(
-                                        color: teal,
-                                        fontSize: 13,
+                                      name,
+                                      style: GoogleFonts.playfairDisplay(
+                                        fontSize: 26,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                ],
-                              ),
-                            ),
-                            Wrap(
+                                    if (user != null) pill('MEMBER'),
+                                  ],
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  user?.email ??
+                                      'Your progress stays in this browser until you sign in.',
+                                  style: const TextStyle(color: muted),
+                                ),
+                                const SizedBox(height: 10),
+                                if (activeIds.isNotEmpty)
+                                  Text(
+                                    'Active pathway: ${data.byId(activeIds.first)['career']['name']} · $tasksComplete tasks completed',
+                                    style: const TextStyle(
+                                      color: teal,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                              ],
+                            );
+                            final actions = Wrap(
                               spacing: 8,
+                              runSpacing: 8,
                               children: [
                                 OutlinedButton.icon(
                                   onPressed: () =>
@@ -4400,8 +4401,34 @@ class ProfilePage extends ConsumerWidget {
                                     child: const Text('Sign in'),
                                   ),
                               ],
-                            ),
-                          ],
+                            );
+                            if (constraints.maxWidth < 700) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      avatar,
+                                      const SizedBox(width: 16),
+                                      Expanded(child: details),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16),
+                                  actions,
+                                ],
+                              );
+                            }
+                            return Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                avatar,
+                                const SizedBox(width: 16),
+                                Expanded(child: details),
+                                const SizedBox(width: 16),
+                                actions,
+                              ],
+                            );
+                          },
                         ),
                         const SizedBox(height: 22),
                         LayoutBuilder(
