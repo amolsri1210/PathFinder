@@ -249,7 +249,9 @@ class AppShell extends ConsumerWidget {
       : 0;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final wide = MediaQuery.sizeOf(context).width > 760;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final wide = screenWidth > 760;
+    final compactHeader = screenWidth < 520;
     final user = ref.watch(authStateProvider).asData?.value;
     final localName = ref.watch(displayNameProvider);
     final careerRecords =
@@ -264,7 +266,9 @@ class AppShell extends ConsumerWidget {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 1280),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 26),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth < 520 ? 12 : 26,
+                  ),
                   child: SizedBox(
                     height: 72,
                     child: Row(
@@ -298,7 +302,7 @@ class AppShell extends ConsumerWidget {
                             ],
                           ),
                         ),
-                        const SizedBox(width: 42),
+                        SizedBox(width: wide ? 24 : 0),
                         if (wide) ...[
                           navLink(context, 'Home', '/'),
                           navLink(context, 'Explore', '/explore'),
@@ -318,26 +322,28 @@ class AppShell extends ConsumerWidget {
                               ),
                             ),
                           ),
-                        IconButton(
-                          tooltip: 'Saved careers',
-                          onPressed: () => context.go('/saved'),
-                          icon: const Icon(Icons.bookmark_border, color: ink),
-                        ),
-                        IconButton(
-                          tooltip: 'Notifications',
-                          onPressed: () =>
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'You are all caught up. Updates appear here when available.',
+                        if (!compactHeader)
+                          IconButton(
+                            tooltip: 'Saved careers',
+                            onPressed: () => context.go('/saved'),
+                            icon: const Icon(Icons.bookmark_border, color: ink),
+                          ),
+                        if (screenWidth >= 600)
+                          IconButton(
+                            tooltip: 'Notifications',
+                            onPressed: () =>
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'You are all caught up. Updates appear here when available.',
+                                    ),
                                   ),
                                 ),
-                              ),
-                          icon: const Icon(
-                            Icons.notifications_none,
-                            color: ink,
+                            icon: const Icon(
+                              Icons.notifications_none,
+                              color: ink,
+                            ),
                           ),
-                        ),
                         IconButton(
                           tooltip: 'Profile',
                           onPressed: () => context.go('/profile'),
@@ -713,7 +719,9 @@ class HomePage extends ConsumerWidget {
                         child: Text(
                           'Find clarity in tech, design & data careers.',
                           style: GoogleFonts.bricolageGrotesque(
-                            fontSize: MediaQuery.sizeOf(context).width < 700
+                            fontSize: MediaQuery.sizeOf(context).width < 380
+                                ? 32
+                                : MediaQuery.sizeOf(context).width < 700
                                 ? 38
                                 : 54,
                             fontWeight: FontWeight.w700,
@@ -724,7 +732,7 @@ class HomePage extends ConsumerWidget {
                       ),
                       const SizedBox(height: 10),
                       const SizedBox(
-                        width: 760,
+                        width: double.infinity,
                         child: Text(
                           'Clear multi-stage blueprints, real practitioner reviews, and personalized diagnostic assessments.',
                           style: TextStyle(
@@ -737,26 +745,36 @@ class HomePage extends ConsumerWidget {
                       const SizedBox(height: 22),
                       LayoutBuilder(
                         builder: (context, constraints) {
-                          return Row(
-                            children: [
-                              Expanded(
-                                child: careerSearchField(
-                                  records: data.records,
-                                  hintText:
-                                      "Try 'Cloud Engineer', 'UX Research', or 'Data Analyst'...",
-                                  onSubmitted: (value) => context.go(
-                                    '/explore?q=${Uri.encodeComponent(value)}',
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              primaryButton(
-                                'Explore',
-                                () => context.go('/explore'),
-                                icon: Icons.arrow_forward,
-                              ),
-                            ],
+                          final search = careerSearchField(
+                            records: data.records,
+                            hintText:
+                                "Try 'Cloud Engineer', 'UX Research', or 'Data Analyst'...",
+                            onSubmitted: (value) => context.go(
+                              '/explore?q=${Uri.encodeComponent(value)}',
+                            ),
                           );
+                          final button = primaryButton(
+                            'Explore',
+                            () => context.go('/explore'),
+                            icon: Icons.arrow_forward,
+                          );
+                          return constraints.maxWidth < 520
+                              ? Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    search,
+                                    const SizedBox(height: 10),
+                                    button,
+                                  ],
+                                )
+                              : Row(
+                                  children: [
+                                    Expanded(child: search),
+                                    const SizedBox(width: 8),
+                                    button,
+                                  ],
+                                );
                         },
                       ),
                     ],
@@ -1148,8 +1166,8 @@ class _ExploreState extends ConsumerState<ExplorePage> {
                   'Explore career paths',
                   'Find a direction, then follow a clear roadmap to build the skills.',
                 ),
-                SizedBox(
-                  width: 560,
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 560),
                   child: TextField(
                     onChanged: (v) => setState(() => query = v),
                     decoration: const InputDecoration(
@@ -1240,14 +1258,17 @@ class CareerPage extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  runSpacing: 8,
                   children: [
                     TextButton.icon(
                       onPressed: () => context.go('/explore'),
                       icon: const Icon(Icons.arrow_back, size: 16),
                       label: const Text('Back to all careers'),
                     ),
-                    const Spacer(),
+                    const SizedBox(width: 12),
                     Text(
                       'Home  /  Explore  /  ${career['category']}  /  ${career['name']}',
                       style: const TextStyle(color: muted, fontSize: 12),
@@ -2771,20 +2792,30 @@ Widget _illustrativeExperience(
           ),
         ),
         const SizedBox(height: 12),
-        Wrap(
-          spacing: 10,
-          runSpacing: 10,
-          children: [
-            SizedBox(width: 380, child: _insightColumn('The good', good, teal)),
-            SizedBox(
-              width: 380,
-              child: _insightColumn(
-                'The challenging',
-                challenging,
-                const Color(0xffa44b46),
-              ),
-            ),
-          ],
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final itemWidth = constraints.maxWidth < 780
+                ? constraints.maxWidth
+                : (constraints.maxWidth - 10) / 2;
+            return Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: [
+                SizedBox(
+                  width: itemWidth,
+                  child: _insightColumn('The good', good, teal),
+                ),
+                SizedBox(
+                  width: itemWidth,
+                  child: _insightColumn(
+                    'The challenging',
+                    challenging,
+                    const Color(0xffa44b46),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
         const SizedBox(height: 12),
         _insightColumn('Advice for beginners', advice, teal),
@@ -2903,29 +2934,54 @@ class JourneyPage extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          pill('ACTIVE WORKSPACE'),
-                          const SizedBox(height: 8),
-                          heading('My Learning Journey', size: 36),
-                          const SizedBox(height: 5),
-                          const Text(
-                            'Track your career pathways, weekly study goals, and milestones.',
-                            style: TextStyle(color: muted, fontSize: 15),
-                          ),
-                        ],
-                      ),
-                    ),
-                    FilledButton.icon(
-                      onPressed: () => _showLogHours(context, ref),
-                      icon: const Icon(Icons.add_circle_outline),
-                      label: const Text('Log study hours'),
-                    ),
-                  ],
+                LayoutBuilder(
+                  builder: (context, constraints) => constraints.maxWidth < 620
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            pill('ACTIVE WORKSPACE'),
+                            const SizedBox(height: 8),
+                            heading('My Learning Journey', size: 32),
+                            const SizedBox(height: 5),
+                            const Text(
+                              'Track your career pathways, weekly study goals, and milestones.',
+                              style: TextStyle(color: muted, fontSize: 15),
+                            ),
+                            const SizedBox(height: 12),
+                            FilledButton.icon(
+                              onPressed: () => _showLogHours(context, ref),
+                              icon: const Icon(Icons.add_circle_outline),
+                              label: const Text('Log study hours'),
+                            ),
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  pill('ACTIVE WORKSPACE'),
+                                  const SizedBox(height: 8),
+                                  heading('My Learning Journey', size: 36),
+                                  const SizedBox(height: 5),
+                                  const Text(
+                                    'Track your career pathways, weekly study goals, and milestones.',
+                                    style: TextStyle(
+                                      color: muted,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            FilledButton.icon(
+                              onPressed: () => _showLogHours(context, ref),
+                              icon: const Icon(Icons.add_circle_outline),
+                              label: const Text('Log study hours'),
+                            ),
+                          ],
+                        ),
                 ),
                 const SizedBox(height: 24),
                 LayoutBuilder(
@@ -3615,7 +3671,11 @@ class _QuizState extends ConsumerState<QuizPage> {
                       borderRadius: BorderRadius.circular(6),
                     ),
                     const SizedBox(height: 8),
-                    Row(
+                    Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: 8,
+                      runSpacing: 8,
                       children: [
                         Expanded(
                           child: Text(
@@ -3729,7 +3789,6 @@ class _QuizState extends ConsumerState<QuizPage> {
                                               fontWeight: FontWeight.w700,
                                             ),
                                           ),
-                                          const Spacer(),
                                           Flexible(
                                             child: pill(
                                               trait,
@@ -3770,7 +3829,11 @@ class _QuizState extends ConsumerState<QuizPage> {
                       },
                     ),
                     const SizedBox(height: 20),
-                    Row(
+                    Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: 8,
+                      runSpacing: 8,
                       children: [
                         TextButton(
                           onPressed: index > 0
@@ -3778,12 +3841,10 @@ class _QuizState extends ConsumerState<QuizPage> {
                               : () => context.go('/'),
                           child: const Text('Previous question'),
                         ),
-                        const Spacer(),
                         const Text(
                           'Draft saved automatically',
                           style: TextStyle(color: muted, fontSize: 12),
                         ),
-                        const SizedBox(width: 12),
                         FilledButton.icon(
                           onPressed: answers.containsKey(index)
                               ? () => setState(() => index++)
