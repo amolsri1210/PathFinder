@@ -1,0 +1,24 @@
+# Flutter and Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+build/
+
+# Node tooling and generated web output
+node_modules/
+dist/
+
+# Local configuration and credentials
+.env*
+!.env.example
+firebase.web.json
+.firebase/
+firebase-debug.log
+firestore-debug.log
+
+# IDE and operating system files
+.idea/
+*.iml
+.DS_Store

@@ -1,0 +1,706 @@
+{
+  "schemaVersion": 1,
+  "version": {
+    "id": "v1",
+    "status": "draft",
+    "questionCount": 10,
+    "selection": "single_select",
+    "scoringMethod": "normalized_weighted_interest_match",
+    "traits": {
+      "software_building": "Building and improving software",
+      "data_reasoning": "Analyzing data and finding patterns",
+      "visual_design": "Designing visual and interactive experiences",
+      "user_research": "Understanding users and testing assumptions",
+      "security_investigation": "Investigating risks, defects, and incidents",
+      "systems_operations": "Operating reliable systems and services",
+      "business_product": "Shaping business goals, products, and growth",
+      "project_coordination": "Planning work and helping teams deliver",
+      "people_support": "Helping users, customers, or teammates",
+      "technical_writing": "Explaining complex ideas clearly",
+      "hardware_networking": "Working with devices, networks, and physical systems",
+      "quantitative_reasoning": "Using numbers, measurement, and models"
+    },
+    "traitWeightsByCareer": {
+      "software-engineer": {
+        "software_building": 3,
+        "data_reasoning": 1,
+        "systems_operations": 1
+      },
+      "full-stack-developer": {
+        "software_building": 3,
+        "visual_design": 1,
+        "systems_operations": 1
+      },
+      "mobile-developer": {
+        "software_building": 3,
+        "visual_design": 1,
+        "user_research": 1
+      },
+      "qa-engineer": {
+        "security_investigation": 2,
+        "software_building": 1,
+        "systems_operations": 1,
+        "technical_writing": 1
+      },
+      "frontend-developer": {
+        "software_building": 2,
+        "visual_design": 2,
+        "user_research": 1
+      },
+      "backend-developer": {
+        "software_building": 3,
+        "systems_operations": 1,
+        "data_reasoning": 1
+      },
+      "game-developer": {
+        "software_building": 3,
+        "visual_design": 1
+      },
+      "embedded-engineer": {
+        "hardware_networking": 3,
+        "software_building": 2,
+        "systems_operations": 1
+      },
+      "blockchain-developer": {
+        "software_building": 2,
+        "security_investigation": 2,
+        "data_reasoning": 1
+      },
+      "devops-engineer": {
+        "systems_operations": 3,
+        "software_building": 2,
+        "project_coordination": 1
+      },
+      "cloud-engineer": {
+        "systems_operations": 3,
+        "security_investigation": 1,
+        "software_building": 1
+      },
+      "system-administrator": {
+        "systems_operations": 3,
+        "people_support": 1,
+        "hardware_networking": 1
+      },
+      "network-engineer": {
+        "hardware_networking": 3,
+        "systems_operations": 3
+      },
+      "sre": {
+        "systems_operations": 3,
+        "software_building": 2,
+        "data_reasoning": 1
+      },
+      "platform-engineer": {
+        "systems_operations": 3,
+        "software_building": 2,
+        "project_coordination": 1
+      },
+      "cybersecurity-analyst": {
+        "security_investigation": 3,
+        "systems_operations": 1,
+        "data_reasoning": 1
+      },
+      "penetration-tester": {
+        "security_investigation": 3,
+        "software_building": 1,
+        "hardware_networking": 1
+      },
+      "security-architect": {
+        "security_investigation": 3,
+        "systems_operations": 1,
+        "business_product": 1,
+        "technical_writing": 1
+      },
+      "cloud-security-engineer": {
+        "security_investigation": 3,
+        "systems_operations": 2,
+        "software_building": 1
+      },
+      "forensics-analyst": {
+        "security_investigation": 3,
+        "data_reasoning": 1,
+        "technical_writing": 1
+      },
+      "data-analyst": {
+        "data_reasoning": 3,
+        "quantitative_reasoning": 2,
+        "technical_writing": 1,
+        "business_product": 1
+      },
+      "data-scientist": {
+        "data_reasoning": 3,
+        "quantitative_reasoning": 3,
+        "software_building": 1
+      },
+      "data-engineer": {
+        "data_reasoning": 3,
+        "software_building": 2,
+        "systems_operations": 1
+      },
+      "dba": {
+        "systems_operations": 3,
+        "data_reasoning": 2,
+        "security_investigation": 1
+      },
+      "ml-engineer": {
+        "data_reasoning": 3,
+        "software_building": 2,
+        "quantitative_reasoning": 2
+      },
+      "bi-developer": {
+        "data_reasoning": 3,
+        "business_product": 1,
+        "technical_writing": 1
+      },
+      "analytics-engineer": {
+        "data_reasoning": 3,
+        "software_building": 2,
+        "business_product": 1
+      },
+      "generative-ai-engineer": {
+        "software_building": 3,
+        "data_reasoning": 2,
+        "security_investigation": 1
+      },
+      "help-desk-technician": {
+        "people_support": 3,
+        "systems_operations": 1,
+        "technical_writing": 1
+      },
+      "technical-support-engineer": {
+        "people_support": 3,
+        "security_investigation": 1,
+        "software_building": 1,
+        "technical_writing": 1
+      },
+      "it-service-manager": {
+        "project_coordination": 3,
+        "systems_operations": 2,
+        "people_support": 2
+      },
+      "business-manager": {
+        "business_product": 3,
+        "project_coordination": 2,
+        "people_support": 1,
+        "quantitative_reasoning": 1
+      },
+      "business-analyst": {
+        "business_product": 2,
+        "data_reasoning": 2,
+        "people_support": 2,
+        "technical_writing": 1
+      },
+      "product-manager": {
+        "business_product": 3,
+        "project_coordination": 2,
+        "people_support": 2,
+        "user_research": 1
+      },
+      "project-manager": {
+        "project_coordination": 3,
+        "business_product": 2,
+        "people_support": 2
+      },
+      "digital-marketer": {
+        "business_product": 3,
+        "visual_design": 1,
+        "data_reasoning": 1,
+        "technical_writing": 1
+      },
+      "scrum-master": {
+        "project_coordination": 3,
+        "people_support": 3,
+        "technical_writing": 1
+      },
+      "technical-writer": {
+        "technical_writing": 3,
+        "software_building": 1,
+        "user_research": 1
+      },
+      "customer-success-manager": {
+        "people_support": 3,
+        "business_product": 1,
+        "project_coordination": 2
+      },
+      "financial-analyst": {
+        "quantitative_reasoning": 3,
+        "data_reasoning": 2,
+        "business_product": 1
+      },
+      "ux-ui-designer": {
+        "visual_design": 3,
+        "user_research": 1,
+        "software_building": 1
+      },
+      "ux-researcher": {
+        "user_research": 3,
+        "people_support": 2,
+        "data_reasoning": 1,
+        "visual_design": 1
+      },
+      "graphic-designer": {
+        "visual_design": 3,
+        "business_product": 1,
+        "technical_writing": 1
+      }
+    },
+    "explanation": "The score measures overlap between answer preferences and typical career activities. It does not measure ability, eligibility, or chance of employment.",
+    "normalization": "For each career, divide the weighted score by that career’s maximum possible score across this version, then rank descending. Break exact ties by stable career ID. Return three results and explain the two strongest matched interests."
+  },
+  "maxPointsByTrait": {
+    "software_building": 19,
+    "data_reasoning": 19,
+    "visual_design": 12,
+    "user_research": 14,
+    "security_investigation": 17,
+    "systems_operations": 16,
+    "business_product": 11,
+    "project_coordination": 12,
+    "people_support": 12,
+    "technical_writing": 10,
+    "hardware_networking": 7,
+    "quantitative_reasoning": 12
+  },
+  "questions": [
+    {
+      "id": "q01_challenge",
+      "prompt": "Which kind of challenge would you most enjoy working on?",
+      "helperText": "Choose what sounds interesting, even if you have not tried it yet.",
+      "responseType": "single_select",
+      "required": true,
+      "order": 1,
+      "options": [
+        {
+          "id": "make",
+          "label": "Building an app or feature people can use",
+          "scores": {
+            "software_building": 3,
+            "visual_design": 1
+          }
+        },
+        {
+          "id": "find",
+          "label": "Finding out why something failed or may be unsafe",
+          "scores": {
+            "security_investigation": 3,
+            "systems_operations": 1
+          }
+        },
+        {
+          "id": "measure",
+          "label": "Using data to explain a trend or recommend a decision",
+          "scores": {
+            "data_reasoning": 3,
+            "quantitative_reasoning": 2
+          }
+        },
+        {
+          "id": "understand",
+          "label": "Learning what people need and improving their experience",
+          "scores": {
+            "user_research": 3,
+            "visual_design": 1,
+            "people_support": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "q02_project",
+      "prompt": "If you had a free weekend for a project, what would you pick?",
+      "helperText": "There is no wrong or more impressive choice.",
+      "responseType": "single_select",
+      "required": true,
+      "order": 2,
+      "options": [
+        {
+          "id": "prototype",
+          "label": "Make a small digital product or automation",
+          "scores": {
+            "software_building": 3,
+            "business_product": 1
+          }
+        },
+        {
+          "id": "dashboard",
+          "label": "Explore a dataset and present what it says",
+          "scores": {
+            "data_reasoning": 3,
+            "quantitative_reasoning": 2,
+            "technical_writing": 1
+          }
+        },
+        {
+          "id": "design",
+          "label": "Create and test a visual interface or campaign",
+          "scores": {
+            "visual_design": 3,
+            "user_research": 1
+          }
+        },
+        {
+          "id": "lab",
+          "label": "Set up a network, device, or secure practice lab",
+          "scores": {
+            "hardware_networking": 2,
+            "systems_operations": 2,
+            "security_investigation": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "q03_feedback",
+      "prompt": "Which work feedback feels most satisfying?",
+      "helperText": "Think about the result that would make you want to keep going.",
+      "responseType": "single_select",
+      "required": true,
+      "order": 3,
+      "options": [
+        {
+          "id": "works",
+          "label": "The feature works reliably and solves the stated problem",
+          "scores": {
+            "software_building": 2,
+            "systems_operations": 2
+          }
+        },
+        {
+          "id": "evidence",
+          "label": "The evidence reveals a useful pattern or root cause",
+          "scores": {
+            "data_reasoning": 2,
+            "security_investigation": 2,
+            "quantitative_reasoning": 1
+          }
+        },
+        {
+          "id": "people",
+          "label": "A person can use it more easily or feels better supported",
+          "scores": {
+            "user_research": 2,
+            "people_support": 2,
+            "visual_design": 1
+          }
+        },
+        {
+          "id": "delivery",
+          "label": "A team gets aligned and completes an important outcome",
+          "scores": {
+            "project_coordination": 3,
+            "business_product": 1,
+            "technical_writing": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "q04_numbers",
+      "prompt": "How do you feel about using numbers in your work?",
+      "helperText": "This is about your current interest and comfort, not a measure of ability or a career requirement.",
+      "responseType": "single_select",
+      "required": true,
+      "order": 4,
+      "options": [
+        {
+          "id": "enjoy",
+          "label": "I enjoy calculating, comparing, or modeling numbers",
+          "scores": {
+            "quantitative_reasoning": 3,
+            "data_reasoning": 2
+          }
+        },
+        {
+          "id": "useful",
+          "label": "I am comfortable using metrics when they answer a practical question",
+          "scores": {
+            "data_reasoning": 2,
+            "business_product": 1,
+            "quantitative_reasoning": 1
+          }
+        },
+        {
+          "id": "learn",
+          "label": "I would like to get more comfortable with them over time",
+          "scores": {
+            "data_reasoning": 1,
+            "quantitative_reasoning": 1
+          }
+        },
+        {
+          "id": "limited",
+          "label": "I prefer work where detailed numerical analysis is occasional",
+          "scores": {
+            "visual_design": 1,
+            "people_support": 1,
+            "technical_writing": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "q05_creativity",
+      "prompt": "Where would you most like to use creativity?",
+      "helperText": "Creativity can mean designing, solving, explaining, or finding a new approach.",
+      "responseType": "single_select",
+      "required": true,
+      "order": 5,
+      "options": [
+        {
+          "id": "visual",
+          "label": "Visuals, layouts, and interactions",
+          "scores": {
+            "visual_design": 3,
+            "user_research": 1
+          }
+        },
+        {
+          "id": "solutions",
+          "label": "Inventing a technical solution or useful tool",
+          "scores": {
+            "software_building": 2,
+            "systems_operations": 1,
+            "hardware_networking": 1
+          }
+        },
+        {
+          "id": "story",
+          "label": "Explaining an idea so people can understand and act on it",
+          "scores": {
+            "technical_writing": 3,
+            "people_support": 1,
+            "business_product": 1
+          }
+        },
+        {
+          "id": "strategy",
+          "label": "Finding a better product, service, or business opportunity",
+          "scores": {
+            "business_product": 3,
+            "data_reasoning": 1,
+            "project_coordination": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "q06_environment",
+      "prompt": "Which environment sounds most engaging?",
+      "helperText": "Choose the setting you would like to learn about.",
+      "responseType": "single_select",
+      "required": true,
+      "order": 6,
+      "options": [
+        {
+          "id": "digital",
+          "label": "Software, websites, apps, or AI tools",
+          "scores": {
+            "software_building": 3,
+            "data_reasoning": 1
+          }
+        },
+        {
+          "id": "cloud",
+          "label": "Cloud services, servers, and systems that must stay available",
+          "scores": {
+            "systems_operations": 3,
+            "software_building": 1
+          }
+        },
+        {
+          "id": "protect",
+          "label": "Security, investigation, and preventing harm",
+          "scores": {
+            "security_investigation": 3,
+            "systems_operations": 1
+          }
+        },
+        {
+          "id": "physical",
+          "label": "Devices, networks, sensors, or connected equipment",
+          "scores": {
+            "hardware_networking": 3,
+            "systems_operations": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "q07_team",
+      "prompt": "What part do you naturally like to play on a team?",
+      "helperText": "You can enjoy more than one; pick the closest fit.",
+      "responseType": "single_select",
+      "required": true,
+      "order": 7,
+      "options": [
+        {
+          "id": "builder",
+          "label": "Turn a plan into a working feature or system",
+          "scores": {
+            "software_building": 2,
+            "systems_operations": 1
+          }
+        },
+        {
+          "id": "explainer",
+          "label": "Help people understand an issue or next step",
+          "scores": {
+            "people_support": 2,
+            "technical_writing": 2
+          }
+        },
+        {
+          "id": "organizer",
+          "label": "Keep work clear, coordinated, and moving forward",
+          "scores": {
+            "project_coordination": 3,
+            "business_product": 1
+          }
+        },
+        {
+          "id": "investigator",
+          "label": "Ask questions, check evidence, and find the cause",
+          "scores": {
+            "security_investigation": 2,
+            "data_reasoning": 2,
+            "user_research": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "q08_uncertainty",
+      "prompt": "When a problem is unclear, what would you do first?",
+      "helperText": "This is about the kind of first step you prefer.",
+      "responseType": "single_select",
+      "required": true,
+      "order": 8,
+      "options": [
+        {
+          "id": "inspect",
+          "label": "Inspect logs, evidence, or system behavior",
+          "scores": {
+            "security_investigation": 3,
+            "systems_operations": 1
+          }
+        },
+        {
+          "id": "ask",
+          "label": "Talk with the people affected and clarify their needs",
+          "scores": {
+            "user_research": 2,
+            "people_support": 2
+          }
+        },
+        {
+          "id": "measure",
+          "label": "Gather data and define what should be measured",
+          "scores": {
+            "data_reasoning": 2,
+            "quantitative_reasoning": 2
+          }
+        },
+        {
+          "id": "frame",
+          "label": "Clarify the goal, constraints, and who needs to decide",
+          "scores": {
+            "business_product": 2,
+            "project_coordination": 2,
+            "technical_writing": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "q09_rhythm",
+      "prompt": "Which work rhythm sounds best to you?",
+      "helperText": "Different careers include all of these at times; choose your preferred emphasis.",
+      "responseType": "single_select",
+      "required": true,
+      "order": 9,
+      "options": [
+        {
+          "id": "focus",
+          "label": "Long stretches of focused building or analysis",
+          "scores": {
+            "software_building": 2,
+            "data_reasoning": 1,
+            "technical_writing": 1
+          }
+        },
+        {
+          "id": "respond",
+          "label": "Responding to issues and restoring a service",
+          "scores": {
+            "systems_operations": 3,
+            "people_support": 1,
+            "security_investigation": 1
+          }
+        },
+        {
+          "id": "iterate",
+          "label": "Trying designs or ideas, getting feedback, and refining",
+          "scores": {
+            "visual_design": 2,
+            "user_research": 2,
+            "business_product": 1
+          }
+        },
+        {
+          "id": "coordinate",
+          "label": "Planning milestones and checking progress with others",
+          "scores": {
+            "project_coordination": 3,
+            "people_support": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "q10_outcome",
+      "prompt": "Which result would make you proudest?",
+      "helperText": "Choose the outcome you would most like to contribute to.",
+      "responseType": "single_select",
+      "required": true,
+      "order": 10,
+      "options": [
+        {
+          "id": "launch",
+          "label": "A useful tool, app, or system shipped and maintained",
+          "scores": {
+            "software_building": 2,
+            "systems_operations": 1
+          }
+        },
+        {
+          "id": "insight",
+          "label": "A clear finding that changes a decision",
+          "scores": {
+            "data_reasoning": 2,
+            "quantitative_reasoning": 2,
+            "business_product": 1
+          }
+        },
+        {
+          "id": "trust",
+          "label": "A safer, more reliable service or device",
+          "scores": {
+            "security_investigation": 2,
+            "systems_operations": 2,
+            "hardware_networking": 1
+          }
+        },
+        {
+          "id": "experience",
+          "label": "A better experience for a user, customer, or team",
+          "scores": {
+            "user_research": 2,
+            "visual_design": 1,
+            "people_support": 2,
+            "business_product": 1
+          }
+        }
+      ]
+    }
+  ]
+}

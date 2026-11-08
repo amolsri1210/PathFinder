@@ -1,0 +1,15 @@
+{
+  "name": "pathfinder-firestore-seed",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "seed:dry-run": "node seed_firestore.mjs",
+    "seed:apply": "node seed_firestore.mjs --apply"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0"
+  }
+}

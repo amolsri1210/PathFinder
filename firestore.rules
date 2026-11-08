@@ -1,0 +1,61 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    // Shared career content is visible to signed-in users only after review.
+    match /pathfinder/content/careers/{careerId} {
+      allow read: if signedIn() && resource.data.contentStatus == 'published';
+      allow write: if false;
+
+      match /roadmapVersions/{versionId} {
+        allow read: if signedIn() && resource.data.status == 'published';
+        allow write: if false;
+      }
+    }
+
+    match /pathfinder/content/quizVersions/{versionId} {
+      allow read: if signedIn() && resource.data.status == 'published';
+      allow write: if false;
+
+      match /questions/{questionId} {
+        allow read: if signedIn()
+          && get(/databases/$(database)/documents/pathfinder/content/quizVersions/$(versionId)).data.status == 'published';
+        allow write: if false;
+      }
+    }
+
+    // Each user's profile and progress are isolated by their Firebase Auth UID.
+    match /users/{uid} {
+      allow read, write: if isOwner(uid);
+
+      match /careerTracks/{trackId} {
+        allow read, write: if isOwner(uid);
+
+        match /taskProgress/{taskId} {
+          allow read, write: if isOwner(uid);
+        }
+      }
+
+      match /savedCareers/{careerId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      match /quizResults/{resultId} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+
+    // Everything not explicitly listed above remains denied.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
