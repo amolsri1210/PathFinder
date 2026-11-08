@@ -75,16 +75,102 @@ final themeModeProvider = StateProvider<ThemeMode>((ref) {
       ? ThemeMode.light
       : ThemeMode.system;
 });
-final dataProvider = FutureProvider<AppData>((ref) async {
-  final careersJson = await rootBundle.loadString('data/careers.seed.json');
-  final quizJson = await rootBundle.loadString('data/quiz.seed.json');
-  return AppData(jsonDecode(careersJson), jsonDecode(quizJson));
-});
 final authStateProvider = StreamProvider<User?>(
   (ref) => Firebase.apps.isEmpty
       ? Stream<User?>.value(null)
       : FirebaseAuth.instance.authStateChanges(),
 );
+final dataProvider = FutureProvider<AppData>((ref) async {
+  final careersJson =
+      jsonDecode(await rootBundle.loadString('data/careers.seed.json'))
+          as Map<String, dynamic>;
+  final quizJson =
+      jsonDecode(await rootBundle.loadString('data/quiz.seed.json'))
+          as Map<String, dynamic>;
+
+  // Guests and offline sessions use the bundled catalog. Signed-in learners
+  // receive reviewed Firestore content when it is available.
+  User? user;
+  try {
+    user = await ref.watch(authStateProvider.future);
+  } catch (_) {
+    return AppData(careersJson, quizJson);
+  }
+  if (user == null || Firebase.apps.isEmpty) {
+    return AppData(careersJson, quizJson);
+  }
+  try {
+    final firestore = FirebaseFirestore.instance;
+    final publishedCareers = await firestore
+        .collection('pathfinder/content/careers')
+        .where('contentStatus', isEqualTo: 'published')
+        .get();
+    final recordsById = <String, Map<String, dynamic>>{
+      for (final record
+          in (careersJson['records'] as List).cast<Map<String, dynamic>>())
+        record['career']['id'] as String: record,
+    };
+    final savedTracks = await firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('careerTracks')
+        .get();
+    final pinnedVersions = <String, String>{
+      for (final track in savedTracks.docs)
+        if (track.data()['roadmapVersionId'] is String)
+          track.id: track.data()['roadmapVersionId'] as String,
+    };
+    for (final careerDocument in publishedCareers.docs) {
+      final career = careerDocument.data();
+      // Keep an existing learner on the roadmap version their progress uses.
+      final versionId =
+          pinnedVersions[careerDocument.id] ??
+          career['activeRoadmapVersionId']?.toString();
+      if (versionId == null || versionId.isEmpty) continue;
+      final roadmapDocument = await careerDocument.reference
+          .collection('roadmapVersions')
+          .doc(versionId)
+          .get();
+      if (!roadmapDocument.exists) continue;
+      final roadmap = roadmapDocument.data()!;
+      if (roadmap['status'] != 'published') continue;
+      recordsById[careerDocument.id] = {'career': career, 'roadmap': roadmap};
+    }
+
+    var resolvedQuiz = quizJson;
+    final publishedQuizVersions = await firestore
+        .collection('pathfinder/content/quizVersions')
+        .where('status', isEqualTo: 'published')
+        .limit(1)
+        .get();
+    if (publishedQuizVersions.docs.isNotEmpty) {
+      final versionDocument = publishedQuizVersions.docs.first;
+      final questionSnapshot = await versionDocument.reference
+          .collection('questions')
+          .get();
+      final questions =
+          questionSnapshot.docs.map((document) => document.data()).toList()
+            ..sort(
+              (left, right) => ((left['order'] as num?) ?? 0).compareTo(
+                (right['order'] as num?) ?? 0,
+              ),
+            );
+      resolvedQuiz = {
+        'schemaVersion': quizJson['schemaVersion'],
+        'version': versionDocument.data(),
+        'questions': questions,
+      };
+    }
+    return AppData({
+      ...careersJson,
+      'records': recordsById.values.toList(),
+    }, resolvedQuiz);
+  } catch (_) {
+    // A network or rules issue should not prevent the learning experience
+    // from opening; retain the bundled content for this session.
+    return AppData(careersJson, quizJson);
+  }
+});
 
 class AppData {
   AppData(this.careersJson, this.quizJson)
