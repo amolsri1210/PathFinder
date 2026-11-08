@@ -3758,11 +3758,7 @@ class _QuizState extends ConsumerState<QuizPage> {
                       borderRadius: BorderRadius.circular(6),
                     ),
                     const SizedBox(height: 8),
-                    Wrap(
-                      alignment: WrapAlignment.spaceBetween,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      spacing: 8,
-                      runSpacing: 8,
+                    Row(
                       children: [
                         Expanded(
                           child: Text(
@@ -3770,6 +3766,7 @@ class _QuizState extends ConsumerState<QuizPage> {
                             style: const TextStyle(color: muted, fontSize: 12),
                           ),
                         ),
+                        const SizedBox(width: 8),
                         pill(
                           'Question ${index + 1}',
                           color: const Color(0xff52617b),
